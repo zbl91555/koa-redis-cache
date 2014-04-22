@@ -12,14 +12,27 @@ var options = {};
 app.use(cache(options));
 ```
 
-* options
-  - prefix: String, redis key prefix, default is `koa-redis-cache:`
-  - expire: Number, redis expire time (second), default is `30 * 60` (30 min)
-  - routes: Array, the routes to cache
-  - redis: redis options
-  - redis.port
-  - redis.host
-  - redis.options, see [node_redis](https://github.com/mranney/node_redis)
+### options
+* prefix
+  - type: `String`
+  - redis key prefix, default is `koa-redis-cache:`
+* expire
+  - type: `Number`
+  - redis expire time (second), default is `30 * 60` (30 min)
+* routes
+  - type: `Array`
+  - the routes to cache, default is `['*']`
+  - It could be `['/api/*', '/view/:id']`, see [path-to-regexp](https://github.com/component/path-to-regexp)
+* redis
+  - type: `Object`
+  - redis options
+* redis.port
+  - type: `Number`
+* redis.host
+  - type: `String`
+* redis.options
+  - type: `Object`
+  - see [node_redis](https://github.com/mranney/node_redis)
 
 ### License
 MIT
