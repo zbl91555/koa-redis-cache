@@ -23,6 +23,10 @@ app.use(cache(options));
   - type: `Array`
   - the routes to cache, default is `['*']`
   - It could be `['/api/*', '/view/:id']`, see [path-to-regexp](https://github.com/component/path-to-regexp)
+* exclude
+  - type: `Array`
+  - the routes to exclude, default is `[]`
+  - It could be `['/api/*', '/view/:id']`, see [path-to-regexp](https://github.com/component/path-to-regexp)
 * redis
   - type: `Object`
   - redis options

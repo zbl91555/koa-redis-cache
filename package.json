@@ -1,6 +1,6 @@
 {
   "name": "koa-redis-cache",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "a middleware for koa to cache response with redis.",
   "main": "index.js",
   "scripts": {
@@ -24,14 +24,14 @@
   },
   "homepage": "https://github.com/coderhaoxin/koa-redis-cache",
   "dependencies": {
-    "redis": "^0.10.1",
     "co-redis": "^1.1.0",
-    "path-to-regexp": "^0.1.2"
+    "path-to-regexp": "^0.1.2",
+    "redis": "^0.10.1"
   },
   "devDependencies": {
-    "koa": "^0.5.5",
-    "should": "^3.3.1",
-    "mocha": "^1.18.2",
-    "supertest": "^0.11.0"
+    "koa": "^0.6.0",
+    "mocha": "*",
+    "should": "*",
+    "supertest": "*"
   }
 }
