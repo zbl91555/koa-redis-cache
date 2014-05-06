@@ -5,8 +5,8 @@ var should = require('should'),
   koa = require('koa'),
   cache = require('../');
 
-describe('### koa-redis-cache', function() {
-  describe('## options - expire', function() {
+describe('## koa-redis-cache', function() {
+  describe('# options - expire', function() {
     var options = {
       prefix: 'new-koa-redis-cache:'
     };
@@ -14,10 +14,10 @@ describe('### koa-redis-cache', function() {
     app.use(cache(options));
     app.use(function * () {
       /*
-       * url same to 'koa-redis-cache.js'
+       * path same to 'koa-redis-cache.js'
        * it will confict if prefix not works
        */
-      if (this.url === '/app/json') {
+      if (this.path === '/app/json') {
         this.body = {
           name: 'hello'
         };
@@ -27,7 +27,7 @@ describe('### koa-redis-cache', function() {
 
     app = app.listen(3000);
 
-    it('# get json', function(done) {
+    it('get json', function(done) {
       request(app)
         .get('/app/json')
         .expect(200)
@@ -41,7 +41,7 @@ describe('### koa-redis-cache', function() {
         });
     });
 
-    it('# get json - cache', function(done) {
+    it('get json - cache', function(done) {
       request(app)
         .get('/app/json')
         .expect(200)

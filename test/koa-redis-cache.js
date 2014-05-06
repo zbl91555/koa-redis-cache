@@ -5,13 +5,13 @@ var should = require('should'),
   koa = require('koa'),
   cache = require('../');
 
-describe('### koa-redis-cache', function() {
-  describe('## default options', function() {
+describe('## koa-redis-cache', function() {
+  describe('# default options', function() {
     var options = {};
     var app = koa();
     app.use(cache(options));
     app.use(function * () {
-      if (this.url === '/app/json') {
+      if (this.path === '/app/json') {
         this.body = {
           name: 'hello'
         };
@@ -33,7 +33,7 @@ describe('### koa-redis-cache', function() {
 
     app = app.listen(3000);
 
-    it('# get json', function(done) {
+    it('get json', function(done) {
       request(app)
         .get('/app/json')
         .expect(200)
@@ -47,7 +47,7 @@ describe('### koa-redis-cache', function() {
         });
     });
 
-    it('# get text', function(done) {
+    it('get text', function(done) {
       request(app)
         .get('/app/text')
         .expect(200)
@@ -61,7 +61,7 @@ describe('### koa-redis-cache', function() {
         });
     });
 
-    it('# get html', function(done) {
+    it('get html', function(done) {
       request(app)
         .get('/app/html')
         .expect(200)
@@ -75,7 +75,7 @@ describe('### koa-redis-cache', function() {
         });
     });
 
-    it('# get buffer', function(done) {
+    it('get buffer', function(done) {
       request(app)
         .get('/app/buffer')
         .expect(200)
@@ -89,7 +89,7 @@ describe('### koa-redis-cache', function() {
         });
     });
 
-    it('# get json - from cache', function(done) {
+    it('get json - from cache', function(done) {
       request(app)
         .get('/app/json')
         .expect(200)
@@ -103,7 +103,7 @@ describe('### koa-redis-cache', function() {
         });
     });
 
-    it('# get text - from cache', function(done) {
+    it('get text - from cache', function(done) {
       request(app)
         .get('/app/text')
         .expect(200)
@@ -117,7 +117,7 @@ describe('### koa-redis-cache', function() {
         });
     });
 
-    it('# get html - from cache', function(done) {
+    it('get html - from cache', function(done) {
       request(app)
         .get('/app/html')
         .expect(200)
@@ -131,7 +131,7 @@ describe('### koa-redis-cache', function() {
         });
     });
 
-    it('# get buffer - from cache', function(done) {
+    it('get buffer - from cache', function(done) {
       request(app)
         .get('/app/buffer')
         .expect(200)

@@ -5,15 +5,15 @@ var should = require('should'),
   koa = require('koa'),
   cache = require('../');
 
-describe('### koa-redis-cache', function() {
-  describe('## options - expire', function() {
+describe('## koa-redis-cache', function() {
+  describe('# options - expire', function() {
     var options = {
       expire: 1
     };
     var app = koa();
     app.use(cache(options));
     app.use(function * () {
-      if (this.url === '/e/json') {
+      if (this.path === '/e/json') {
         this.body = {
           name: 'hello'
         };
@@ -23,7 +23,7 @@ describe('### koa-redis-cache', function() {
 
     app = app.listen(3000);
 
-    it('# get json', function(done) {
+    it('get json', function(done) {
       request(app)
         .get('/e/json')
         .expect(200)
@@ -37,7 +37,7 @@ describe('### koa-redis-cache', function() {
         });
     });
 
-    it('# get json - cache', function(done) {
+    it('get json - cache', function(done) {
       request(app)
         .get('/e/json')
         .expect(200)
@@ -51,13 +51,13 @@ describe('### koa-redis-cache', function() {
         });
     });
 
-    it('# timeout', function(done) {
+    it('timeout', function(done) {
       setTimeout(function() {
         done();
       }, 1500);
     });
 
-    it('# get json - no cache', function(done) {
+    it('get json - no cache', function(done) {
       request(app)
         .get('/e/json')
         .expect(200)

@@ -19,6 +19,9 @@ app.use(cache(options));
 * expire
   - type: `Number`
   - redis expire time (second), default is `30 * 60` (30 min)
+* passParam
+  - type: `String`
+  - if the passParam is existed in query string, not get from cache
 * routes
   - type: `Array`
   - the routes to cache, default is `['*']`

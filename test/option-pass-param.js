@@ -6,20 +6,14 @@ var should = require('should'),
   cache = require('../');
 
 describe('## koa-redis-cache', function() {
-  describe('# options - routes', function() {
+  describe('# options - passParam', function() {
     var options = {
-      routes: ['/v1/*']
+      passParam: 'cache'
     };
     var app = koa();
     app.use(cache(options));
     app.use(function * () {
-      if (this.path === '/v1/json') {
-        this.body = {
-          name: 'hello'
-        };
-        return;
-      }
-      if (this.path === '/v2/json') {
+      if (this.path === '/pass') {
         this.body = {
           name: 'hello'
         };
@@ -27,11 +21,11 @@ describe('## koa-redis-cache', function() {
       }
     });
 
-    app = app.listen(3000);
+    app = app.listen(3001);
 
-    it('get json from v1', function(done) {
+    it('get json from pass', function(done) {
       request(app)
-        .get('/v1/json')
+        .get('/pass')
         .expect(200)
         .end(function(err, res) {
           should.not.exist(err);
@@ -43,9 +37,9 @@ describe('## koa-redis-cache', function() {
         });
     });
 
-    it('get json from v1 - cache', function(done) {
+    it('get json from pass - cache', function(done) {
       request(app)
-        .get('/v1/json')
+        .get('/pass')
         .expect(200)
         .end(function(err, res) {
           should.not.exist(err);
@@ -57,23 +51,9 @@ describe('## koa-redis-cache', function() {
         });
     });
 
-    it('get json from v2', function(done) {
+    it('get json from pass - no cache', function(done) {
       request(app)
-        .get('/v2/json')
-        .expect(200)
-        .end(function(err, res) {
-          should.not.exist(err);
-          res.status.should.equal(200);
-          res.headers['content-type'].should.equal('application/json');
-          should.not.exist(res.headers['last-modified']);
-          res.body.name.should.equal('hello');
-          done();
-        });
-    });
-
-    it('get json from v2 - no cache', function(done) {
-      request(app)
-        .get('/v2/json')
+        .get('/pass?cache=no')
         .expect(200)
         .end(function(err, res) {
           should.not.exist(err);

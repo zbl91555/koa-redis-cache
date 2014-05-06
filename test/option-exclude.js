@@ -5,21 +5,21 @@ var should = require('should'),
   koa = require('koa'),
   cache = require('../');
 
-describe('### koa-redis-cache', function() {
-  describe('## options - routes', function() {
+describe('## koa-redis-cache', function() {
+  describe('# options - exclude', function() {
     var options = {
       exclude: ['/e2/*']
     };
     var app = koa();
     app.use(cache(options));
     app.use(function * () {
-      if (this.url === '/e1/json') {
+      if (this.path === '/e1/json') {
         this.body = {
           name: 'hello'
         };
         return;
       }
-      if (this.url === '/e2/json') {
+      if (this.path === '/e2/json') {
         this.body = {
           name: 'hello'
         };
@@ -29,7 +29,7 @@ describe('### koa-redis-cache', function() {
 
     app = app.listen(3000);
 
-    it('# get json from e1', function(done) {
+    it('get json from e1', function(done) {
       request(app)
         .get('/e1/json')
         .expect(200)
@@ -43,7 +43,7 @@ describe('### koa-redis-cache', function() {
         });
     });
 
-    it('# get json from e1 - cache', function(done) {
+    it('get json from e1 - cache', function(done) {
       request(app)
         .get('/e1/json')
         .expect(200)
@@ -57,7 +57,7 @@ describe('### koa-redis-cache', function() {
         });
     });
 
-    it('# get json from e2', function(done) {
+    it('get json from e2', function(done) {
       request(app)
         .get('/e2/json')
         .expect(200)
@@ -71,7 +71,7 @@ describe('### koa-redis-cache', function() {
         });
     });
 
-    it('# get json from e2 - no cache', function(done) {
+    it('get json from e2 - no cache', function(done) {
       request(app)
         .get('/e2/json')
         .expect(200)

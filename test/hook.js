@@ -6,7 +6,7 @@ var Redis = require('redis'),
 
 before(function(done) {
   client.flushdb(function(error) {
-    console.log('### flush db');
+    console.log('## flush db');
     should.not.exist(error);
     done();
   });
@@ -14,7 +14,7 @@ before(function(done) {
 
 after(function(done) {
   client.flushdb(function(error) {
-    console.log('### flush db');
+    console.log('## flush db');
     should.not.exist(error);
     done();
   });
