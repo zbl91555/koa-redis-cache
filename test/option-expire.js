@@ -31,7 +31,7 @@ describe('## koa-redis-cache', function() {
           should.not.exist(err);
           res.status.should.equal(200);
           res.headers['content-type'].should.equal('application/json');
-          should.not.exist(res.headers['last-modified']);
+          should.not.exist(res.headers['from-redis-cache']);
           res.body.name.should.equal('hello');
           done();
         });
@@ -45,7 +45,7 @@ describe('## koa-redis-cache', function() {
           should.not.exist(err);
           res.status.should.equal(200);
           res.headers['content-type'].should.equal('application/json');
-          should.exist(res.headers['last-modified']);
+          res.headers['from-redis-cache'].should.equal('true');
           res.body.name.should.equal('hello');
           done();
         });
@@ -65,7 +65,7 @@ describe('## koa-redis-cache', function() {
           should.not.exist(err);
           res.status.should.equal(200);
           res.headers['content-type'].should.equal('application/json');
-          should.not.exist(res.headers['last-modified']);
+          should.not.exist(res.headers['from-redis-cache']);
           res.body.name.should.equal('hello');
           done();
         });
