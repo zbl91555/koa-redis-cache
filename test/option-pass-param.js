@@ -5,25 +5,25 @@ var should = require('should'),
   koa = require('koa'),
   cache = require('../');
 
-describe('## koa-redis-cache', function() {
-  describe('# options - passParam', function() {
-    var options = {
-      passParam: 'cache'
-    };
-    var app = koa();
-    app.use(cache(options));
-    app.use(function * () {
-      if (this.path === '/pass') {
-        this.body = {
-          name: 'hello'
-        };
-        return;
-      }
-    });
+describe('## options - passParam', function() {
+  var options = {
+    passParam: 'cache'
+  };
+  var app = koa();
+  app.use(cache(options));
+  app.use(function * () {
+    if (this.path === '/pass') {
+      this.body = {
+        name: 'hello'
+      };
+      return;
+    }
+  });
 
-    app = app.listen(3001);
+  app = app.listen(3001);
 
-    it('get json from pass', function(done) {
+  describe('# get json from pass', function() {
+    it('no cache', function(done) {
       request(app)
         .get('/pass')
         .expect(200)
@@ -37,7 +37,7 @@ describe('## koa-redis-cache', function() {
         });
     });
 
-    it('get json from pass - cache', function(done) {
+    it('from cache', function(done) {
       request(app)
         .get('/pass')
         .expect(200)
@@ -51,7 +51,7 @@ describe('## koa-redis-cache', function() {
         });
     });
 
-    it('get json from pass - no cache', function(done) {
+    it('no cache', function(done) {
       request(app)
         .get('/pass?cache=no')
         .expect(200)

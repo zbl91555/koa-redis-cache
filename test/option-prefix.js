@@ -5,29 +5,29 @@ var should = require('should'),
   koa = require('koa'),
   cache = require('../');
 
-describe('## koa-redis-cache', function() {
-  describe('# options - expire', function() {
-    var options = {
-      prefix: 'new-koa-redis-cache:'
-    };
-    var app = koa();
-    app.use(cache(options));
-    app.use(function * () {
-      /*
-       * path same to 'koa-redis-cache.js'
-       * it will confict if prefix not works
-       */
-      if (this.path === '/app/json') {
-        this.body = {
-          name: 'hello'
-        };
-        return;
-      }
-    });
+describe('## options - expire', function() {
+  var options = {
+    prefix: 'new-koa-redis-cache:'
+  };
+  var app = koa();
+  app.use(cache(options));
+  app.use(function * () {
+    /*
+     * path same to 'koa-redis-cache.js'
+     * it will confict if prefix not works
+     */
+    if (this.path === '/app/json') {
+      this.body = {
+        name: 'hello'
+      };
+      return;
+    }
+  });
 
-    app = app.listen(3000);
+  app = app.listen(3000);
 
-    it('get json', function(done) {
+  describe('# get json', function() {
+    it('no cache', function(done) {
       request(app)
         .get('/app/json')
         .expect(200)
@@ -41,7 +41,7 @@ describe('## koa-redis-cache', function() {
         });
     });
 
-    it('get json - cache', function(done) {
+    it('from cache', function(done) {
       request(app)
         .get('/app/json')
         .expect(200)

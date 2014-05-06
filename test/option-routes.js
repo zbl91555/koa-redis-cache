@@ -5,31 +5,31 @@ var should = require('should'),
   koa = require('koa'),
   cache = require('../');
 
-describe('## koa-redis-cache', function() {
-  describe('# options - routes', function() {
-    var options = {
-      routes: ['/v1/*']
-    };
-    var app = koa();
-    app.use(cache(options));
-    app.use(function * () {
-      if (this.path === '/v1/json') {
-        this.body = {
-          name: 'hello'
-        };
-        return;
-      }
-      if (this.path === '/v2/json') {
-        this.body = {
-          name: 'hello'
-        };
-        return;
-      }
-    });
+describe('## options - routes', function() {
+  var options = {
+    routes: ['/v1/*']
+  };
+  var app = koa();
+  app.use(cache(options));
+  app.use(function * () {
+    if (this.path === '/v1/json') {
+      this.body = {
+        name: 'hello'
+      };
+      return;
+    }
+    if (this.path === '/v2/json') {
+      this.body = {
+        name: 'hello'
+      };
+      return;
+    }
+  });
 
-    app = app.listen(3000);
+  app = app.listen(3000);
 
-    it('get json from v1', function(done) {
+  describe('# get json from v1', function() {
+    it('no cache', function(done) {
       request(app)
         .get('/v1/json')
         .expect(200)
@@ -43,7 +43,7 @@ describe('## koa-redis-cache', function() {
         });
     });
 
-    it('get json from v1 - cache', function(done) {
+    it('from cache', function(done) {
       request(app)
         .get('/v1/json')
         .expect(200)
@@ -56,8 +56,10 @@ describe('## koa-redis-cache', function() {
           done();
         });
     });
+  });
 
-    it('get json from v2', function(done) {
+  describe('get json from v2', function() {
+    it('no cache', function(done) {
       request(app)
         .get('/v2/json')
         .expect(200)
@@ -71,7 +73,7 @@ describe('## koa-redis-cache', function() {
         });
     });
 
-    it('get json from v2 - no cache', function(done) {
+    it('no cache', function(done) {
       request(app)
         .get('/v2/json')
         .expect(200)
