@@ -30,6 +30,9 @@ app.use(cache(options));
   - type: `Array`
   - the routes to exclude, default is `[]`
   - It could be `['/api/*', '/view/:id']`, see [path-to-regexp](https://github.com/component/path-to-regexp)
+* onerror
+  - type: `Function`
+  - callback function for error, default is `function() {}`
 * redis
   - type: `Object`
   - redis options
