@@ -43,7 +43,7 @@ describe('## default options', function() {
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
-          res.headers['content-type'].should.equal('application/json');
+          res.headers['content-type'].should.equal('application/json; charset=utf-8');
           should.not.exist(res.headers['from-redis-cache']);
           res.body.name.should.equal('hello');
           done();
@@ -101,7 +101,7 @@ describe('## default options', function() {
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
-          res.headers['content-type'].should.equal('application/json');
+          res.headers['content-type'].should.equal('application/json; charset=utf-8');
           res.headers['from-redis-cache'].should.equal('true');
           res.body.name.should.equal('hello');
           done();

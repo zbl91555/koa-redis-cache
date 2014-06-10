@@ -36,7 +36,7 @@ describe('## options - exclude', function() {
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
-          res.headers['content-type'].should.equal('application/json');
+          res.headers['content-type'].should.equal('application/json; charset=utf-8');
           should.not.exist(res.headers['from-redis-cache']);
           res.body.name.should.equal('hello');
           done();
@@ -50,7 +50,35 @@ describe('## options - exclude', function() {
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
-          res.headers['content-type'].should.equal('application/json');
+          res.headers['content-type'].should.equal('application/json; charset=utf-8');
+          res.headers['from-redis-cache'].should.equal('true');
+          res.body.name.should.equal('hello');
+          done();
+        });
+    });
+
+    it('no cache - with params', function(done) {
+      request(app)
+        .get('/e1/json?name=xxoo')
+        .expect(200)
+        .end(function(err, res) {
+          should.not.exist(err);
+          res.status.should.equal(200);
+          res.headers['content-type'].should.equal('application/json; charset=utf-8');
+          should.not.exist(res.headers['from-redis-cache']);
+          res.body.name.should.equal('hello');
+          done();
+        });
+    });
+
+    it('from cache - with params', function(done) {
+      request(app)
+        .get('/e1/json?name=xxoo')
+        .expect(200)
+        .end(function(err, res) {
+          should.not.exist(err);
+          res.status.should.equal(200);
+          res.headers['content-type'].should.equal('application/json; charset=utf-8');
           res.headers['from-redis-cache'].should.equal('true');
           res.body.name.should.equal('hello');
           done();
@@ -66,7 +94,7 @@ describe('## options - exclude', function() {
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
-          res.headers['content-type'].should.equal('application/json');
+          res.headers['content-type'].should.equal('application/json; charset=utf-8');
           should.not.exist(res.headers['from-redis-cache']);
           res.body.name.should.equal('hello');
           done();
@@ -80,7 +108,35 @@ describe('## options - exclude', function() {
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
-          res.headers['content-type'].should.equal('application/json');
+          res.headers['content-type'].should.equal('application/json; charset=utf-8');
+          should.not.exist(res.headers['from-redis-cache']);
+          res.body.name.should.equal('hello');
+          done();
+        });
+    });
+
+    it('no cache - with params', function(done) {
+      request(app)
+        .get('/e2/json?name=xxoo')
+        .expect(200)
+        .end(function(err, res) {
+          should.not.exist(err);
+          res.status.should.equal(200);
+          res.headers['content-type'].should.equal('application/json; charset=utf-8');
+          should.not.exist(res.headers['from-redis-cache']);
+          res.body.name.should.equal('hello');
+          done();
+        });
+    });
+
+    it('no cache - with params', function(done) {
+      request(app)
+        .get('/e2/json?name=xxoo')
+        .expect(200)
+        .end(function(err, res) {
+          should.not.exist(err);
+          res.status.should.equal(200);
+          res.headers['content-type'].should.equal('application/json; charset=utf-8');
           should.not.exist(res.headers['from-redis-cache']);
           res.body.name.should.equal('hello');
           done();
