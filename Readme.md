@@ -8,7 +8,10 @@ var koa = require('koa'),
   app = koa(),
   cache = require('koa-redis-cache');
 
-var options = {};
+var options = {
+  expire: 60,
+  routes: ['/index']
+};
 app.use(cache(options));
 ```
 
@@ -43,6 +46,24 @@ app.use(cache(options));
 * redis.options
   - type: `Object`
   - see [node_redis](https://github.com/mranney/node_redis)
+
+### set different expire for each route
+```js
+var koa = require('koa'),
+  app = koa(),
+  cache = require('koa-redis-cache');
+
+var options = {
+  routes: [{
+    path: '/index',
+    expire: 60
+  }, {
+    path: '/user',
+    expire: 5
+  }]
+};
+app.use(cache(options));
+```
 
 ### License
 MIT
