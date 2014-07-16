@@ -16,12 +16,9 @@ describe('## options - expire', function() {
      * path same to 'koa-redis-cache.js'
      * it will confict if prefix not works
      */
-    if (this.path === '/app/json') {
-      this.body = {
-        name: 'hello'
-      };
-      return;
-    }
+    this.body = {
+      name: 'hello'
+    };
   });
 
   app = app.listen(3000);

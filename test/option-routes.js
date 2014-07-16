@@ -12,18 +12,9 @@ describe('## options - routes', function() {
   var app = koa();
   app.use(cache(options));
   app.use(function * () {
-    if (this.path === '/v1/json') {
-      this.body = {
-        name: 'hello'
-      };
-      return;
-    }
-    if (this.path === '/v2/json') {
-      this.body = {
-        name: 'hello'
-      };
-      return;
-    }
+    this.body = {
+      name: 'hello'
+    };
   });
 
   app = app.listen(3000);

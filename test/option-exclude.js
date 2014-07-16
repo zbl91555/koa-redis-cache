@@ -12,18 +12,9 @@ describe('## options - exclude', function() {
   var app = koa();
   app.use(cache(options));
   app.use(function * () {
-    if (this.path === '/e1/json') {
-      this.body = {
-        name: 'hello'
-      };
-      return;
-    }
-    if (this.path === '/e2/json') {
-      this.body = {
-        name: 'hello'
-      };
-      return;
-    }
+    this.body = {
+      name: 'hello'
+    };
   });
 
   app = app.listen(3000);

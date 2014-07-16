@@ -12,12 +12,9 @@ describe('## options - passParam', function() {
   var app = koa();
   app.use(cache(options));
   app.use(function * () {
-    if (this.path === '/pass') {
-      this.body = {
-        name: 'hello'
-      };
-      return;
-    }
+    this.body = {
+      name: 'hello'
+    };
   });
 
   app = app.listen(3001);

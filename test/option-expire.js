@@ -12,12 +12,9 @@ describe('## options - expire', function() {
   var app = koa();
   app.use(cache(options));
   app.use(function * () {
-    if (this.path === '/e/json') {
-      this.body = {
-        name: 'hello'
-      };
-      return;
-    }
+    this.body = {
+      name: 'hello'
+    };
   });
 
   app = app.listen(3000);
