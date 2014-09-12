@@ -5,7 +5,7 @@ var should = require('should'),
   koa = require('koa'),
   cache = require('../');
 
-describe('## options - expire', function() {
+describe('## options - prefix', function() {
   var options = {
     prefix: 'new-koa-redis-cache:'
   };

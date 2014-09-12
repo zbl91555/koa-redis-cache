@@ -1,4 +1,8 @@
-[![NPM](https://nodei.co/npm/koa-redis-cache.png?downloads=true)](https://nodei.co/npm/koa-redis-cache/)
+[![NPM version][npm-img]][npm-url]
+[![Build status][travis-img]][travis-url]
+[![Test coverage][coveralls-img]][coveralls-url]
+[![License][license-img]][license-url]
+[![Dependency status][david-img]][david-url]
 
 ### koa-redis-cache
 
@@ -67,3 +71,14 @@ app.use(cache(options));
 
 ### License
 MIT
+
+[npm-img]: https://img.shields.io/npm/v/koa-redis-cache.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/koa-redis-cache
+[travis-img]: https://img.shields.io/travis/coderhaoxin/koa-redis-cache.svg?style=flat-square
+[travis-url]: https://travis-ci.org/coderhaoxin/koa-redis-cache
+[coveralls-img]: https://img.shields.io/coveralls/coderhaoxin/koa-redis-cache.svg?style=flat-square
+[coveralls-url]: https://coveralls.io/r/coderhaoxin/koa-redis-cache?branch=master
+[license-img]: http://img.shields.io/badge/license-MIT-green.svg?style=flat-square
+[license-url]: http://opensource.org/licenses/MIT
+[david-img]: https://img.shields.io/david/coderhaoxin/koa-redis-cache.svg?style=flat-square
+[david-url]: https://david-dm.org/coderhaoxin/koa-redis-cache
