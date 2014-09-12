@@ -5,9 +5,12 @@ var should = require('should'),
   koa = require('koa'),
   cache = require('../');
 
-describe('## options - passParam', function() {
+describe('## options - redis', function() {
   var options = {
-    passParam: 'cache'
+    redis: {
+      port: 3333,
+      host: 'localhost'
+    }
   };
   var app = koa();
   app.use(cache(options));
@@ -17,12 +20,12 @@ describe('## options - passParam', function() {
     };
   });
 
-  app = app.listen(3001);
+  app = app.listen(3000);
 
-  describe('# get json from pass', function() {
+  describe('# redis unavailable', function() {
     it('no cache', function(done) {
       request(app)
-        .get('/pass')
+        .get('/redis/json')
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
@@ -33,22 +36,9 @@ describe('## options - passParam', function() {
         });
     });
 
-    it('from cache', function(done) {
-      request(app)
-        .get('/pass')
-        .end(function(err, res) {
-          should.not.exist(err);
-          res.status.should.equal(200);
-          res.headers['content-type'].should.equal('application/json; charset=utf-8');
-          res.headers['from-redis-cache'].should.equal('true');
-          res.body.name.should.equal('hello');
-          done();
-        });
-    });
-
     it('no cache', function(done) {
       request(app)
-        .get('/pass?cache=no')
+        .get('/redis/json')
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);

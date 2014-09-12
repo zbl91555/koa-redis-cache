@@ -34,7 +34,6 @@ describe('## option - route config', function() {
     it('no cache', function(done) {
       request(app)
         .get('/m1/json')
-        .expect(200)
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
@@ -48,7 +47,6 @@ describe('## option - route config', function() {
     it('from cache', function(done) {
       request(app)
         .get('/m1/json')
-        .expect(200)
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
@@ -68,7 +66,6 @@ describe('## option - route config', function() {
     it('from cache', function(done) {
       request(app)
         .get('/m1/json')
-        .expect(200)
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
@@ -88,7 +85,6 @@ describe('## option - route config', function() {
     it('no cache', function(done) {
       request(app)
         .get('/m1/json')
-        .expect(200)
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
@@ -104,7 +100,6 @@ describe('## option - route config', function() {
     it('no cache', function(done) {
       request(app)
         .get('/m2/json')
-        .expect(200)
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
@@ -118,7 +113,6 @@ describe('## option - route config', function() {
     it('from cache', function(done) {
       request(app)
         .get('/m2/json')
-        .expect(200)
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
@@ -138,7 +132,6 @@ describe('## option - route config', function() {
     it('from cache', function(done) {
       request(app)
         .get('/m2/json')
-        .expect(200)
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
@@ -158,7 +151,6 @@ describe('## option - route config', function() {
     it('no cache', function(done) {
       request(app)
         .get('/m2/json')
-        .expect(200)
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
@@ -174,7 +166,6 @@ describe('## option - route config', function() {
     it('no cache', function(done) {
       request(app)
         .get('/m3/json')
-        .expect(200)
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
@@ -188,7 +179,6 @@ describe('## option - route config', function() {
     it('from cache', function(done) {
       request(app)
         .get('/m3/json')
-        .expect(200)
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
@@ -208,7 +198,6 @@ describe('## option - route config', function() {
     it('from cache', function(done) {
       request(app)
         .get('/m3/json')
-        .expect(200)
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
@@ -228,7 +217,6 @@ describe('## option - route config', function() {
     it('no cache', function(done) {
       request(app)
         .get('/m3/json')
-        .expect(200)
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);

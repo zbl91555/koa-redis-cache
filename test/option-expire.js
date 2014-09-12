@@ -22,8 +22,7 @@ describe('## options - expire', function() {
   describe('# get json', function() {
     it('no cache', function(done) {
       request(app)
-        .get('/e/json')
-        .expect(200)
+        .get('/expire/json')
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
@@ -36,8 +35,7 @@ describe('## options - expire', function() {
 
     it('from cache', function(done) {
       request(app)
-        .get('/e/json')
-        .expect(200)
+        .get('/expire/json')
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
@@ -56,8 +54,7 @@ describe('## options - expire', function() {
 
     it('no cache', function(done) {
       request(app)
-        .get('/e/json')
-        .expect(200)
+        .get('/expire/json')
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);

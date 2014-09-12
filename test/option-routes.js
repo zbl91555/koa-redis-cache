@@ -23,7 +23,6 @@ describe('## options - routes', function() {
     it('no cache', function(done) {
       request(app)
         .get('/v1/json')
-        .expect(200)
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
@@ -37,7 +36,6 @@ describe('## options - routes', function() {
     it('from cache', function(done) {
       request(app)
         .get('/v1/json')
-        .expect(200)
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
@@ -51,7 +49,6 @@ describe('## options - routes', function() {
     it('no cache - with params', function(done) {
       request(app)
         .get('/v1/json?name=xxoo')
-        .expect(200)
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
@@ -65,7 +62,6 @@ describe('## options - routes', function() {
     it('from cache - with params', function(done) {
       request(app)
         .get('/v1/json?name=xxoo')
-        .expect(200)
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
@@ -81,7 +77,6 @@ describe('## options - routes', function() {
     it('no cache', function(done) {
       request(app)
         .get('/v2/json')
-        .expect(200)
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
@@ -95,7 +90,6 @@ describe('## options - routes', function() {
     it('no cache', function(done) {
       request(app)
         .get('/v2/json')
-        .expect(200)
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
@@ -109,7 +103,6 @@ describe('## options - routes', function() {
     it('no cache - with params', function(done) {
       request(app)
         .get('/v2/json?name=xxoo')
-        .expect(200)
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
@@ -123,7 +116,6 @@ describe('## options - routes', function() {
     it('no cache - with params', function(done) {
       request(app)
         .get('/v2/json?name=xxoo')
-        .expect(200)
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);

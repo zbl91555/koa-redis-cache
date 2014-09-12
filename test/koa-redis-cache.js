@@ -6,9 +6,8 @@ var should = require('should'),
   cache = require('../');
 
 describe('## default options', function() {
-  var options = {};
   var app = koa();
-  app.use(cache(options));
+  app.use(cache());
   app.use(function * () {
     if (this.path === '/app/json') {
       this.body = {
@@ -31,6 +30,10 @@ describe('## default options', function() {
       this.body = new Buffer('buffer');
       return;
     }
+    if (this.path === '/app/500') {
+      this.status = 500;
+      this.body = 'no cache';
+    }
   });
 
   app = app.listen(3001);
@@ -39,7 +42,6 @@ describe('## default options', function() {
     it('get json', function(done) {
       request(app)
         .get('/app/json')
-        .expect(200)
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
@@ -53,7 +55,6 @@ describe('## default options', function() {
     it('get text', function(done) {
       request(app)
         .get('/app/text')
-        .expect(200)
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
@@ -67,7 +68,6 @@ describe('## default options', function() {
     it('get html', function(done) {
       request(app)
         .get('/app/html')
-        .expect(200)
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
@@ -81,7 +81,6 @@ describe('## default options', function() {
     it('get buffer', function(done) {
       request(app)
         .get('/app/buffer')
-        .expect(200)
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
@@ -97,7 +96,6 @@ describe('## default options', function() {
     it('get json', function(done) {
       request(app)
         .get('/app/json')
-        .expect(200)
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
@@ -111,7 +109,6 @@ describe('## default options', function() {
     it('get text', function(done) {
       request(app)
         .get('/app/text')
-        .expect(200)
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
@@ -125,7 +122,6 @@ describe('## default options', function() {
     it('get html', function(done) {
       request(app)
         .get('/app/html')
-        .expect(200)
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
@@ -139,7 +135,6 @@ describe('## default options', function() {
     it('get buffer', function(done) {
       request(app)
         .get('/app/buffer')
-        .expect(200)
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
@@ -155,7 +150,6 @@ describe('## default options', function() {
     it('no cache', function(done) {
       request(app)
         .get('/app/html?v=1')
-        .expect(200)
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
@@ -169,7 +163,6 @@ describe('## default options', function() {
     it('from cache', function(done) {
       request(app)
         .get('/app/html?v=1')
-        .expect(200)
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
@@ -183,7 +176,6 @@ describe('## default options', function() {
     it('no cache', function(done) {
       request(app)
         .get('/app/html?v=2')
-        .expect(200)
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
@@ -197,7 +189,6 @@ describe('## default options', function() {
     it('no cache', function(done) {
       request(app)
         .get('/app/html?v=3')
-        .expect(200)
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
@@ -211,13 +202,40 @@ describe('## default options', function() {
     it('from cache', function(done) {
       request(app)
         .get('/app/html?v=3')
-        .expect(200)
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
           res.headers['content-type'].should.equal('text/html; charset=utf-8');
           res.headers['from-redis-cache'].should.equal('true');
           res.text.should.equal('<h1>hello</h1>3');
+          done();
+        });
+    });
+  });
+
+  describe('# not 200, no cache', function() {
+    it('first: no cache', function(done) {
+      request(app)
+        .get('/app/500')
+        .end(function(err, res) {
+          should.not.exist(err);
+          res.status.should.equal(500);
+          res.headers['content-type'].should.equal('text/plain; charset=utf-8');
+          should.not.exist(res.headers['from-redis-cache']);
+          res.text.should.equal('no cache');
+          done();
+        });
+    });
+
+    it('second: no cache', function(done) {
+      request(app)
+        .get('/app/500')
+        .end(function(err, res) {
+          should.not.exist(err);
+          res.status.should.equal(500);
+          res.headers['content-type'].should.equal('text/plain; charset=utf-8');
+          should.not.exist(res.headers['from-redis-cache']);
+          res.text.should.equal('no cache');
           done();
         });
     });

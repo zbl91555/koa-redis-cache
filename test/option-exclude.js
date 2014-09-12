@@ -7,7 +7,7 @@ var should = require('should'),
 
 describe('## options - exclude', function() {
   var options = {
-    exclude: ['/e2/*']
+    exclude: ['/exclude/2/*']
   };
   var app = koa();
   app.use(cache(options));
@@ -19,11 +19,10 @@ describe('## options - exclude', function() {
 
   app = app.listen(3000);
 
-  describe('# get json from e1', function() {
+  describe('# get json from exclude/1', function() {
     it('no cache', function(done) {
       request(app)
-        .get('/e1/json')
-        .expect(200)
+        .get('/exclude/1/json')
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
@@ -36,8 +35,7 @@ describe('## options - exclude', function() {
 
     it('from cache', function(done) {
       request(app)
-        .get('/e1/json')
-        .expect(200)
+        .get('/exclude/1/json')
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
@@ -50,8 +48,7 @@ describe('## options - exclude', function() {
 
     it('no cache - with params', function(done) {
       request(app)
-        .get('/e1/json?name=xxoo')
-        .expect(200)
+        .get('/exclude/1/json?name=xxoo')
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
@@ -64,8 +61,7 @@ describe('## options - exclude', function() {
 
     it('from cache - with params', function(done) {
       request(app)
-        .get('/e1/json?name=xxoo')
-        .expect(200)
+        .get('/exclude/1/json?name=xxoo')
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
@@ -77,11 +73,10 @@ describe('## options - exclude', function() {
     });
   });
 
-  describe('# get json from e2', function() {
+  describe('# get json from exclude/2', function() {
     it('no cache', function(done) {
       request(app)
-        .get('/e2/json')
-        .expect(200)
+        .get('/exclude/2/json')
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
@@ -94,8 +89,7 @@ describe('## options - exclude', function() {
 
     it('no cache', function(done) {
       request(app)
-        .get('/e2/json')
-        .expect(200)
+        .get('/exclude/2/json')
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
@@ -108,8 +102,7 @@ describe('## options - exclude', function() {
 
     it('no cache - with params', function(done) {
       request(app)
-        .get('/e2/json?name=xxoo')
-        .expect(200)
+        .get('/exclude/2/json?name=xxoo')
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
@@ -122,8 +115,7 @@ describe('## options - exclude', function() {
 
     it('no cache - with params', function(done) {
       request(app)
-        .get('/e2/json?name=xxoo')
-        .expect(200)
+        .get('/exclude/2/json?name=xxoo')
         .end(function(err, res) {
           should.not.exist(err);
           res.status.should.equal(200);
