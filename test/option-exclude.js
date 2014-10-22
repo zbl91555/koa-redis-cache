@@ -1,13 +1,13 @@
 'use strict';
 
-var should = require('should'),
-  request = require('supertest'),
-  koa = require('koa'),
-  cache = require('../');
+var request = require('supertest'),
+  should = require('should'),
+  cache = require('..'),
+  koa = require('koa');
 
 describe('## options - exclude', function() {
   var options = {
-    exclude: ['/exclude/2/*']
+    exclude: ['/exclude/2/(.*)']
   };
   var app = koa();
   app.use(cache(options));

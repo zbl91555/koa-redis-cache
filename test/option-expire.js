@@ -1,9 +1,9 @@
 'use strict';
 
-var should = require('should'),
-  request = require('supertest'),
-  koa = require('koa'),
-  cache = require('../');
+var request = require('supertest'),
+  should = require('should'),
+  cache = require('..'),
+  koa = require('koa');
 
 describe('## options - expire', function() {
   var options = {

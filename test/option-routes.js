@@ -1,13 +1,13 @@
 'use strict';
 
-var should = require('should'),
-  request = require('supertest'),
-  koa = require('koa'),
-  cache = require('../');
+var request = require('supertest'),
+  should = require('should'),
+  cache = require('..'),
+  koa = require('koa');
 
 describe('## options - routes', function() {
   var options = {
-    routes: ['/v1/*']
+    routes: ['/v1/(.*)']
   };
   var app = koa();
   app.use(cache(options));

@@ -1,9 +1,9 @@
 'use strict';
 
-var should = require('should'),
-  request = require('supertest'),
-  koa = require('koa'),
-  cache = require('../');
+var request = require('supertest'),
+  should = require('should'),
+  cache = require('..'),
+  koa = require('koa');
 
 describe('## default options', function() {
   var app = koa();
@@ -18,6 +18,10 @@ describe('## default options', function() {
     if (this.path === '/app/text') {
       this.body = 'hello';
       return;
+    }
+    if (this.path === '/app/type') {
+      this.body = 'default type: html';
+      this.res.removeHeader('Content-Type');
     }
     if (this.path === '/app/html') {
       this.body = '<h1>hello</h1>';
@@ -61,6 +65,19 @@ describe('## default options', function() {
           res.headers['content-type'].should.equal('text/plain; charset=utf-8');
           should.not.exist(res.headers['from-redis-cache']);
           res.text.should.equal('hello');
+          done();
+        });
+    });
+
+    it('get type', function(done) {
+      request(app)
+        .get('/app/type')
+        .end(function(err, res) {
+          should.not.exist(err);
+          res.status.should.equal(200);
+          should.not.exist(res.headers['content-type']);
+          should.not.exist(res.headers['from-redis-cache']);
+          res.text.should.equal('default type: html');
           done();
         });
     });
@@ -115,6 +132,19 @@ describe('## default options', function() {
           res.headers['content-type'].should.equal('text/plain; charset=utf-8');
           res.headers['from-redis-cache'].should.equal('true');
           res.text.should.equal('hello');
+          done();
+        });
+    });
+
+    it('get type', function(done) {
+      request(app)
+        .get('/app/type')
+        .end(function(err, res) {
+          should.not.exist(err);
+          res.status.should.equal(200);
+          res.headers['content-type'].should.equal('text/html; charset=utf-8');
+          res.headers['from-redis-cache'].should.equal('true');
+          res.text.should.equal('default type: html');
           done();
         });
     });

@@ -1,19 +1,19 @@
 'use strict';
 
-var should = require('should'),
-  request = require('supertest'),
-  koa = require('koa'),
-  cache = require('../');
+var request = require('supertest'),
+  should = require('should'),
+  cache = require('..'),
+  koa = require('koa');
 
 describe('## option - route config', function() {
   var options = {
     expire: 3,
     routes: [
-      '/m3/*', {
-        path: '/m1/*',
+      '/m3/(.*)', {
+        path: '/m1/(.*)',
         expire: 2
       }, {
-        path: '/m2/*',
+        path: '/m2/(.*)',
         expire: 1
       }
     ]
