@@ -29,14 +29,17 @@ app.use(cache(options));
 * passParam
   - type: `String`
   - if the passParam is existed in query string, not get from cache
+* maxLength
+  - type: `Number`
+  - max length of the body to cache
 * routes
   - type: `Array`
-  - the routes to cache, default is `['*']`
-  - It could be `['/api/*', '/view/:id']`, see [path-to-regexp](https://github.com/component/path-to-regexp)
+  - the routes to cache, default is `['(.*)']`
+  - It could be `['/api/(.*)', '/view/:id']`, see [path-to-regexp](https://github.com/pillarjs/path-to-regexp)
 * exclude
   - type: `Array`
   - the routes to exclude, default is `[]`
-  - It could be `['/api/*', '/view/:id']`, see [path-to-regexp](https://github.com/component/path-to-regexp)
+  - It could be `['/api/(.*)', '/view/:id']`, see [path-to-regexp](https://github.com/pillarjs/path-to-regexp)
 * onerror
   - type: `Function`
   - callback function for error, default is `function() {}`

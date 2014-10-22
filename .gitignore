@@ -1,4 +1,4 @@
-.DS_Store
 dump.rdb
 coverage/
 node_modules/
+npm-debug.log

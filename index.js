@@ -1,18 +1,19 @@
 'use strict';
 
-var Redis = require('redis'),
+var pathToRegExp = require('path-to-regexp'),
   wrapper = require('co-redis'),
-  pathToRegExp = require('path-to-regexp');
+  Redis = require('redis');
 
 module.exports = function(options) {
   options = options || {};
-  var redisOptions = options.redis || {},
+  var redisAvailable = false,
+    redisOptions = options.redis || {},
     prefix = options.prefix || 'koa-redis-cache:',
     expire = options.expire || 30 * 60, // 30 min
-    routes = options.routes || ['*'],
+    routes = options.routes || ['(.*)'],
     exclude = options.exclude || [],
     passParam = options.passParam || '',
-    redisAvailable = true,
+    maxLength = options.maxLength || Infinity,
     onerror = options.onerror || function() {};
 
   var redisClient = wrapper(Redis.createClient(redisOptions.port, redisOptions.host, redisOptions.options));
@@ -32,7 +33,7 @@ module.exports = function(options) {
       url = ctx.request.url,
       path = ctx.request.path,
       key = prefix + url,
-      tkey = prefix + url + ':type',
+      tkey = key + ':type',
       match = false,
       routeExpire = false;
 
@@ -44,27 +45,26 @@ module.exports = function(options) {
         routeExpire = routes[i].expire;
       }
 
-      if (pathToRegExp(route, []).exec(path)) {
+      if (paired(route, path)) {
         match = true;
         break;
       }
     }
 
     for (var j = 0; j < exclude.length; j++) {
-      if (pathToRegExp(exclude[j], []).exec(path)) {
+      if (paired(exclude[j], path)) {
         match = false;
         break;
       }
     }
 
     if (!redisAvailable || !match || (passParam && ctx.request.query[passParam])) {
-      yield * next;
-      return;
+      return yield * next;
     }
 
     var ok = false;
     try {
-      ok = yield getCache(key, tkey, ctx, redisClient);
+      ok = yield getCache(ctx, key, tkey);
     } catch (e) {
       ok = false;
     }
@@ -76,54 +76,77 @@ module.exports = function(options) {
 
     try {
       var trueExpire = routeExpire || expire;
-      yield setCache(key, tkey, trueExpire, ctx, redisClient);
-      routeExpire = false;
-    } catch (e) {
-      routeExpire = false;
-    }
+      yield setCache(ctx, key, tkey, trueExpire);
+    } catch (e) {}
+    routeExpire = false;
   };
+
+  /**
+   * getCache
+   */
+  function * getCache(ctx, key, tkey) {
+    var value = yield redisClient.get(key),
+      type,
+      ok = false;
+
+    if (value) {
+      ctx.response.status = 200;
+      type = (yield redisClient.get(tkey)) || 'text/html';
+      ctx.response.set('from-redis-cache', 'true');
+      ctx.response.type = type;
+      ctx.response.body = value;
+      ok = true;
+    }
+
+    return ok;
+  }
+
+  /**
+   * setCache
+   */
+  function * setCache(ctx, key, tkey, expire) {
+    var body = ctx.response.body;
+
+    if ((ctx.request.method !== 'GET') || (ctx.response.status !== 200) || !body) {
+      return;
+    }
+
+    if (typeof body === 'string') {
+      // string
+      if (Buffer.byteLength(body) > maxLength) return;
+      yield redisClient.setex(key, expire, body);
+    } else if (Buffer.isBuffer(body)) {
+      // buffer
+      if (body.length > maxLength) return;
+      yield redisClient.setex(key, expire, body);
+    } else if (typeof body === 'object' && ctx.response.type === 'application/json') {
+      // json
+      body = JSON.stringify(body);
+      if (Buffer.byteLength(body) > maxLength) return;
+      yield redisClient.setex(key, expire, body);
+    } else {
+      return;
+    }
+
+    yield * cacheType(ctx, tkey, expire);
+  }
+
+  /**
+   * cacheType
+   */
+  function * cacheType(ctx, tkey, expire) {
+    var type = ctx.response.type;
+    if (type) {
+      yield redisClient.setex(tkey, expire, type);
+    }
+  }
 };
 
-function * getCache(key, tkey, ctx, redisClient) {
-  var value = yield redisClient.get(key),
-    type,
-    ok = false;
+function paired(route, path) {
+  var options = {
+    sensitive: true,
+    strict: true,
+  };
 
-  if (value) {
-    ctx.response.status = 200;
-    type = (yield redisClient.get(tkey)) || 'text/html';
-    ctx.response.set('from-redis-cache', 'true');
-    ctx.response.type = type;
-    ctx.response.body = value;
-    ok = true;
-  }
-
-  return ok;
-}
-
-function * setCache(key, tkey, expire, ctx, redisClient) {
-  var body = ctx.response.body,
-    type;
-
-  if ((ctx.request.method !== 'GET') || (ctx.response.status !== 200) || !body) {
-    return;
-  }
-
-  if ((typeof body === 'string') || Buffer.isBuffer(body)) {
-    // string, buffer
-    yield redisClient.setex(key, expire, body);
-
-    type = ctx.response.type;
-    if (type) {
-      yield redisClient.setex(tkey, expire, type);
-    }
-  } else if ((typeof body === 'object') && (typeof body.pipe !== 'function')) {
-    // json
-    yield redisClient.setex(key, expire, JSON.stringify(body));
-
-    type = ctx.response.type;
-    if (type) {
-      yield redisClient.setex(tkey, expire, type);
-    }
-  }
+  return pathToRegExp(route, [], options).exec(path);
 }
