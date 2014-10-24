@@ -2,6 +2,7 @@
 
 var pathToRegExp = require('path-to-regexp'),
   wrapper = require('co-redis'),
+  readall = require('readall'),
   Redis = require('redis');
 
 module.exports = function(options) {
@@ -124,6 +125,12 @@ module.exports = function(options) {
       body = JSON.stringify(body);
       if (Buffer.byteLength(body) > maxLength) return;
       yield redisClient.setex(key, expire, body);
+    } else if (typeof body.pipe === 'function') {
+      // stream
+      body = yield read(body);
+      ctx.response.body = body;
+      if (Buffer.byteLength(body) > maxLength) return;
+      yield redisClient.setex(key, expire, body);
     } else {
       return;
     }
@@ -149,4 +156,10 @@ function paired(route, path) {
   };
 
   return pathToRegExp(route, [], options).exec(path);
+}
+
+function read(stream) {
+  return function(done) {
+    readall(stream, done);
+  };
 }
