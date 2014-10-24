@@ -17,6 +17,11 @@ module.exports = function(options) {
     maxLength = options.maxLength || Infinity,
     onerror = options.onerror || function() {};
 
+  /**
+   * redisClient
+   */
+  redisOptions.port = redisOptions.port || 6379;
+  redisOptions.host = redisOptions.host || 'localhost';
   var redisClient = wrapper(Redis.createClient(redisOptions.port, redisOptions.host, redisOptions.options));
   redisClient.on('error', function(error) {
     redisAvailable = false;

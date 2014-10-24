@@ -33,7 +33,7 @@
     "co-redis": "^1.1.0",
     "path-to-regexp": "1",
     "readall": "0.0.4",
-    "redis": "^0.11.0"
+    "redis": "^0.12.0"
   },
   "devDependencies": {
     "istanbul-harmony": "*",
