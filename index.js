@@ -98,7 +98,7 @@ module.exports = function(options) {
     if (value) {
       ctx.response.status = 200;
       type = (yield redisClient.get(tkey)) || 'text/html';
-      ctx.response.set('from-redis-cache', 'true');
+      ctx.response.set('X-Koa-Redis-Cache', 'true');
       ctx.response.type = type;
       ctx.response.body = value;
       ok = true;

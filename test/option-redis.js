@@ -30,7 +30,7 @@ describe('## options - redis', function() {
           should.not.exist(err);
           res.status.should.equal(200);
           res.headers['content-type'].should.equal('application/json; charset=utf-8');
-          should.not.exist(res.headers['from-redis-cache']);
+          should.not.exist(res.headers['x-koa-redis-cache']);
           res.body.name.should.equal('hello');
           done();
         });
@@ -43,7 +43,7 @@ describe('## options - redis', function() {
           should.not.exist(err);
           res.status.should.equal(200);
           res.headers['content-type'].should.equal('application/json; charset=utf-8');
-          should.not.exist(res.headers['from-redis-cache']);
+          should.not.exist(res.headers['x-koa-redis-cache']);
           res.body.name.should.equal('hello');
           done();
         });

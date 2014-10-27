@@ -50,7 +50,7 @@ describe('## default options', function() {
           should.not.exist(err);
           res.status.should.equal(200);
           res.headers['content-type'].should.equal('application/json; charset=utf-8');
-          should.not.exist(res.headers['from-redis-cache']);
+          should.not.exist(res.headers['x-koa-redis-cache']);
           res.body.name.should.equal('hello');
           done();
         });
@@ -63,7 +63,7 @@ describe('## default options', function() {
           should.not.exist(err);
           res.status.should.equal(200);
           res.headers['content-type'].should.equal('text/plain; charset=utf-8');
-          should.not.exist(res.headers['from-redis-cache']);
+          should.not.exist(res.headers['x-koa-redis-cache']);
           res.text.should.equal('hello');
           done();
         });
@@ -76,7 +76,7 @@ describe('## default options', function() {
           should.not.exist(err);
           res.status.should.equal(200);
           should.not.exist(res.headers['content-type']);
-          should.not.exist(res.headers['from-redis-cache']);
+          should.not.exist(res.headers['x-koa-redis-cache']);
           res.text.should.equal('default type: html');
           done();
         });
@@ -89,7 +89,7 @@ describe('## default options', function() {
           should.not.exist(err);
           res.status.should.equal(200);
           res.headers['content-type'].should.equal('text/html; charset=utf-8');
-          should.not.exist(res.headers['from-redis-cache']);
+          should.not.exist(res.headers['x-koa-redis-cache']);
           res.text.should.equal('<h1>hello</h1>');
           done();
         });
@@ -102,7 +102,7 @@ describe('## default options', function() {
           should.not.exist(err);
           res.status.should.equal(200);
           res.headers['content-type'].should.equal('application/octet-stream');
-          should.not.exist(res.headers['from-redis-cache']);
+          should.not.exist(res.headers['x-koa-redis-cache']);
           res.text.should.equal('buffer');
           done();
         });
@@ -117,7 +117,7 @@ describe('## default options', function() {
           should.not.exist(err);
           res.status.should.equal(200);
           res.headers['content-type'].should.equal('application/json; charset=utf-8');
-          res.headers['from-redis-cache'].should.equal('true');
+          res.headers['x-koa-redis-cache'].should.equal('true');
           res.body.name.should.equal('hello');
           done();
         });
@@ -130,7 +130,7 @@ describe('## default options', function() {
           should.not.exist(err);
           res.status.should.equal(200);
           res.headers['content-type'].should.equal('text/plain; charset=utf-8');
-          res.headers['from-redis-cache'].should.equal('true');
+          res.headers['x-koa-redis-cache'].should.equal('true');
           res.text.should.equal('hello');
           done();
         });
@@ -143,7 +143,7 @@ describe('## default options', function() {
           should.not.exist(err);
           res.status.should.equal(200);
           res.headers['content-type'].should.equal('text/html; charset=utf-8');
-          res.headers['from-redis-cache'].should.equal('true');
+          res.headers['x-koa-redis-cache'].should.equal('true');
           res.text.should.equal('default type: html');
           done();
         });
@@ -156,7 +156,7 @@ describe('## default options', function() {
           should.not.exist(err);
           res.status.should.equal(200);
           res.headers['content-type'].should.equal('text/html; charset=utf-8');
-          res.headers['from-redis-cache'].should.equal('true');
+          res.headers['x-koa-redis-cache'].should.equal('true');
           res.text.should.equal('<h1>hello</h1>');
           done();
         });
@@ -169,7 +169,7 @@ describe('## default options', function() {
           should.not.exist(err);
           res.status.should.equal(200);
           res.headers['content-type'].should.equal('application/octet-stream');
-          res.headers['from-redis-cache'].should.equal('true');
+          res.headers['x-koa-redis-cache'].should.equal('true');
           res.text.should.equal('buffer');
           done();
         });
@@ -184,7 +184,7 @@ describe('## default options', function() {
           should.not.exist(err);
           res.status.should.equal(200);
           res.headers['content-type'].should.equal('text/html; charset=utf-8');
-          should.not.exist(res.headers['from-redis-cache']);
+          should.not.exist(res.headers['x-koa-redis-cache']);
           res.text.should.equal('<h1>hello</h1>1');
           done();
         });
@@ -197,7 +197,7 @@ describe('## default options', function() {
           should.not.exist(err);
           res.status.should.equal(200);
           res.headers['content-type'].should.equal('text/html; charset=utf-8');
-          res.headers['from-redis-cache'].should.equal('true');
+          res.headers['x-koa-redis-cache'].should.equal('true');
           res.text.should.equal('<h1>hello</h1>1');
           done();
         });
@@ -210,7 +210,7 @@ describe('## default options', function() {
           should.not.exist(err);
           res.status.should.equal(200);
           res.headers['content-type'].should.equal('text/html; charset=utf-8');
-          should.not.exist(res.headers['from-redis-cache']);
+          should.not.exist(res.headers['x-koa-redis-cache']);
           res.text.should.equal('<h1>hello</h1>2');
           done();
         });
@@ -223,7 +223,7 @@ describe('## default options', function() {
           should.not.exist(err);
           res.status.should.equal(200);
           res.headers['content-type'].should.equal('text/html; charset=utf-8');
-          should.not.exist(res.headers['from-redis-cache']);
+          should.not.exist(res.headers['x-koa-redis-cache']);
           res.text.should.equal('<h1>hello</h1>3');
           done();
         });
@@ -236,7 +236,7 @@ describe('## default options', function() {
           should.not.exist(err);
           res.status.should.equal(200);
           res.headers['content-type'].should.equal('text/html; charset=utf-8');
-          res.headers['from-redis-cache'].should.equal('true');
+          res.headers['x-koa-redis-cache'].should.equal('true');
           res.text.should.equal('<h1>hello</h1>3');
           done();
         });
@@ -251,7 +251,7 @@ describe('## default options', function() {
           should.not.exist(err);
           res.status.should.equal(500);
           res.headers['content-type'].should.equal('text/plain; charset=utf-8');
-          should.not.exist(res.headers['from-redis-cache']);
+          should.not.exist(res.headers['x-koa-redis-cache']);
           res.text.should.equal('no cache');
           done();
         });
@@ -264,7 +264,7 @@ describe('## default options', function() {
           should.not.exist(err);
           res.status.should.equal(500);
           res.headers['content-type'].should.equal('text/plain; charset=utf-8');
-          should.not.exist(res.headers['from-redis-cache']);
+          should.not.exist(res.headers['x-koa-redis-cache']);
           res.text.should.equal('no cache');
           done();
         });

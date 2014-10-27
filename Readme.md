@@ -72,6 +72,9 @@ var options = {
 app.use(cache(options));
 ```
 
+### notes
+* `koa-redis-cache` will set a custom http header `X-Koa-Redis-Cache: true` when the response is from cache
+
 ### License
 MIT
 

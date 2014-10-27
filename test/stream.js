@@ -32,7 +32,7 @@ describe('## stream support', function() {
           res.status.should.equal(200);
           res.headers['content-type'].should.equal('application/javascript; charset=utf-8');
           res.text.should.equal(fs.readFileSync(__dirname + '/hook.js', 'utf8'));
-          should.not.exist(res.headers['from-redis-cache']);
+          should.not.exist(res.headers['x-koa-redis-cache']);
           done();
         });
     });
@@ -45,7 +45,7 @@ describe('## stream support', function() {
           res.status.should.equal(200);
           res.headers['content-type'].should.equal('application/javascript; charset=utf-8');
           res.text.should.equal(fs.readFileSync(__dirname + '/hook.js', 'utf8'));
-          res.headers['from-redis-cache'].should.equal('true');
+          res.headers['x-koa-redis-cache'].should.equal('true');
           done();
         });
     });
@@ -60,7 +60,7 @@ describe('## stream support', function() {
           res.status.should.equal(200);
           res.headers['content-type'].should.equal('application/javascript; charset=utf-8');
           res.text.should.equal(fs.readFileSync(__filename, 'utf8'));
-          should.not.exist(res.headers['from-redis-cache']);
+          should.not.exist(res.headers['x-koa-redis-cache']);
           done();
         });
     });
@@ -73,7 +73,7 @@ describe('## stream support', function() {
           res.status.should.equal(200);
           res.headers['content-type'].should.equal('application/javascript; charset=utf-8');
           res.text.should.equal(fs.readFileSync(__filename, 'utf8'));
-          should.not.exist(res.headers['from-redis-cache']);
+          should.not.exist(res.headers['x-koa-redis-cache']);
           done();
         });
     });
