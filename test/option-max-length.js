@@ -1,114 +1,114 @@
-'use strict';
+'use strict'
 
-var request = require('supertest'),
-  should = require('should'),
-  cache = require('..'),
-  koa = require('koa');
+const request = require('supertest')
+const should = require('should')
+const cache = require('..')
+const koa = require('koa')
 
-describe('## options - maxLength', function() {
-  var options = {
+describe('## options - maxLength', () => {
+  const options = {
     maxLength: 4
-  };
-  var app = koa();
-  app.use(cache(options));
-  app.use(function * () {
+  }
+  let app = koa()
+  app.use(cache(options))
+  app.use(function* () {
     if (this.path === '/max/length/json') {
       this.body = {
         name: 'hello'
-      };
-      return;
+      }
+      return
     }
     if (this.path === '/max/length/string') {
-      this.body = 'hello';
-      return;
+      this.body = 'hello'
+      return
     }
     if (this.path === '/max/length/buffer') {
-      this.body = new Buffer('hello');
-      return;
+      this.body = new Buffer('hello')
+      return
     }
-  });
+  })
 
-  app = app.listen(3000);
+  app = app.listen(3004)
 
-  describe('# no cache', function() {
-    it('json', function(done) {
+  describe('# no cache', () => {
+    it('json', (done) => {
       request(app)
         .get('/max/length/json')
-        .end(function(err, res) {
-          should.not.exist(err);
-          res.status.should.equal(200);
-          res.headers['content-type'].should.equal('application/json; charset=utf-8');
-          should.not.exist(res.headers['x-koa-redis-cache']);
-          res.body.name.should.equal('hello');
-          done();
-        });
-    });
+        .end((err, res) => {
+          should.not.exist(err)
+          res.status.should.equal(200)
+          res.headers['content-type'].should.equal('application/json; charset=utf-8')
+          should.not.exist(res.headers['x-koa-redis-cache'])
+          res.body.name.should.equal('hello')
+          done()
+        })
+    })
 
-    it('string', function(done) {
+    it('string', (done) => {
       request(app)
         .get('/max/length/string')
-        .end(function(err, res) {
-          should.not.exist(err);
-          res.status.should.equal(200);
-          res.headers['content-type'].should.equal('text/plain; charset=utf-8');
-          should.not.exist(res.headers['x-koa-redis-cache']);
-          res.text.should.equal('hello');
-          done();
-        });
-    });
+        .end((err, res) => {
+          should.not.exist(err)
+          res.status.should.equal(200)
+          res.headers['content-type'].should.equal('text/plain; charset=utf-8')
+          should.not.exist(res.headers['x-koa-redis-cache'])
+          res.text.should.equal('hello')
+          done()
+        })
+    })
 
-    it('buffer', function(done) {
+    it('buffer', (done) => {
       request(app)
         .get('/max/length/buffer')
-        .end(function(err, res) {
-          should.not.exist(err);
-          res.status.should.equal(200);
-          res.headers['content-type'].should.equal('application/octet-stream');
-          should.not.exist(res.headers['x-koa-redis-cache']);
-          res.text.should.equal('hello');
-          done();
-        });
-    });
-  });
+        .end((err, res) => {
+          should.not.exist(err)
+          res.status.should.equal(200)
+          res.headers['content-type'].should.equal('application/octet-stream')
+          should.not.exist(res.headers['x-koa-redis-cache'])
+          res.text.should.equal('hello')
+          done()
+        })
+    })
+  })
 
-  describe('# still no cache', function() {
-    it('json', function(done) {
+  describe('# still no cache', () => {
+    it('json', (done) => {
       request(app)
         .get('/max/length/json')
-        .end(function(err, res) {
-          should.not.exist(err);
-          res.status.should.equal(200);
-          res.headers['content-type'].should.equal('application/json; charset=utf-8');
-          should.not.exist(res.headers['x-koa-redis-cache']);
-          res.body.name.should.equal('hello');
-          done();
-        });
-    });
+        .end((err, res) => {
+          should.not.exist(err)
+          res.status.should.equal(200)
+          res.headers['content-type'].should.equal('application/json; charset=utf-8')
+          should.not.exist(res.headers['x-koa-redis-cache'])
+          res.body.name.should.equal('hello')
+          done()
+        })
+    })
 
-    it('string', function(done) {
+    it('string', (done) => {
       request(app)
         .get('/max/length/string')
-        .end(function(err, res) {
-          should.not.exist(err);
-          res.status.should.equal(200);
-          res.headers['content-type'].should.equal('text/plain; charset=utf-8');
-          should.not.exist(res.headers['x-koa-redis-cache']);
-          res.text.should.equal('hello');
-          done();
-        });
-    });
+        .end((err, res) => {
+          should.not.exist(err)
+          res.status.should.equal(200)
+          res.headers['content-type'].should.equal('text/plain; charset=utf-8')
+          should.not.exist(res.headers['x-koa-redis-cache'])
+          res.text.should.equal('hello')
+          done()
+        })
+    })
 
-    it('buffer', function(done) {
+    it('buffer', (done) => {
       request(app)
         .get('/max/length/buffer')
-        .end(function(err, res) {
-          should.not.exist(err);
-          res.status.should.equal(200);
-          res.headers['content-type'].should.equal('application/octet-stream');
-          should.not.exist(res.headers['x-koa-redis-cache']);
-          res.text.should.equal('hello');
-          done();
-        });
-    });
-  });
-});
+        .end((err, res) => {
+          should.not.exist(err)
+          res.status.should.equal(200)
+          res.headers['content-type'].should.equal('application/octet-stream')
+          should.not.exist(res.headers['x-koa-redis-cache'])
+          res.text.should.equal('hello')
+          done()
+        })
+    })
+  })
+})

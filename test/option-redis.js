@@ -1,52 +1,54 @@
-'use strict';
+'use strict'
 
-var request = require('supertest'),
-  should = require('should'),
-  cache = require('..'),
-  koa = require('koa');
+const request = require('supertest')
+const should = require('should')
+const cache = require('..')
+const koa = require('koa')
 
-describe('## options - redis', function() {
-  var options = {
+describe('## options - redis', ()=> {
+  const options = {
     redis: {
       port: 3333,
       host: 'localhost'
     }
-  };
-  var app = koa();
-  app.use(cache(options));
-  app.use(function * () {
+  }
+
+  let app = koa()
+
+  app.use(cache(options))
+  app.use(function* () {
     this.body = {
       name: 'hello'
-    };
-  });
+    }
+  })
 
-  app = app.listen(3000);
+  app = app.listen(3007)
 
-  describe('# redis unavailable', function() {
-    it('no cache', function(done) {
+  describe('# redis unavailable', () => {
+    it('no cache', (done) => {
       request(app)
         .get('/redis/json')
-        .end(function(err, res) {
-          should.not.exist(err);
-          res.status.should.equal(200);
-          res.headers['content-type'].should.equal('application/json; charset=utf-8');
-          should.not.exist(res.headers['x-koa-redis-cache']);
-          res.body.name.should.equal('hello');
-          done();
-        });
-    });
+        .end((err, res) => {
+          should.not.exist(err)
+          res.status.should.equal(200)
+          res.headers['content-type'].should.equal('application/json; charset=utf-8')
+          should.not.exist(res.headers['x-koa-redis-cache'])
+          res.body.name.should.equal('hello')
+          done()
+        })
+    })
 
-    it('no cache', function(done) {
+    it('no cache', (done) => {
       request(app)
         .get('/redis/json')
-        .end(function(err, res) {
-          should.not.exist(err);
-          res.status.should.equal(200);
-          res.headers['content-type'].should.equal('application/json; charset=utf-8');
-          should.not.exist(res.headers['x-koa-redis-cache']);
-          res.body.name.should.equal('hello');
-          done();
-        });
-    });
-  });
-});
+        .end((err, res) => {
+          should.not.exist(err)
+          res.status.should.equal(200)
+          res.headers['content-type'].should.equal('application/json; charset=utf-8')
+          should.not.exist(res.headers['x-koa-redis-cache'])
+          res.body.name.should.equal('hello')
+          done()
+        })
+    })
+  })
+})

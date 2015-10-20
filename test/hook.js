@@ -1,13 +1,13 @@
-'use strict';
+'use strict'
 
-var Redis = require('redis'),
-  client = Redis.createClient(),
-  should = require('should');
+const Redis = require('redis')
+const client = Redis.createClient()
+const should = require('should')
 
-after(function(done) {
-  client.flushdb(function(error) {
-    console.log('## flush db');
-    should.not.exist(error);
-    done();
-  });
-});
+after((done) => {
+  client.flushdb((error) => {
+    console.log('## flush db')
+    should.not.exist(error)
+    done()
+  })
+})
