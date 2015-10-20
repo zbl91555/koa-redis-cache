@@ -1,3 +1,4 @@
+
 [![NPM version][npm-img]][npm-url]
 [![Build status][travis-img]][travis-url]
 [![Test coverage][coveralls-img]][coveralls-url]
@@ -7,19 +8,22 @@
 ### koa-redis-cache
 
 how to use
-```js
-var koa = require('koa'),
-  app = koa(),
-  cache = require('koa-redis-cache');
 
-var options = {
+```js
+const cache = require('koa-redis-cache')
+const koa = require('koa')
+const app = koa()
+
+let options = {
   expire: 60,
   routes: ['/index']
-};
-app.use(cache(options));
+}
+
+app.use(cache(options))
 ```
 
 ### options
+
 * prefix
   - type: `String`
   - redis key prefix, default is `koa-redis-cache:`
@@ -55,12 +59,13 @@ app.use(cache(options));
   - see [node_redis](https://github.com/mranney/node_redis)
 
 ### set different expire for each route
-```js
-var koa = require('koa'),
-  app = koa(),
-  cache = require('koa-redis-cache');
 
-var options = {
+```js
+const cache = require('koa-redis-cache')
+const koa = require('koa')
+const app = koa()
+
+let options = {
   routes: [{
     path: '/index',
     expire: 60
@@ -68,11 +73,13 @@ var options = {
     path: '/user',
     expire: 5
   }]
-};
-app.use(cache(options));
+}
+
+app.use(cache(options))
 ```
 
 ### notes
+
 * `koa-redis-cache` will set a custom http header `X-Koa-Redis-Cache: true` when the response is from cache
 
 ### License
