@@ -1,4 +1,4 @@
-dump.rdb
-coverage/
-node_modules/
 npm-debug.log
+node_modules/
+coverage/
+dump.rdb
