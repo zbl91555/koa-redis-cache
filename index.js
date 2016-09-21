@@ -23,7 +23,8 @@ module.exports = function(options) {
    */
   redisOptions.port = redisOptions.port || 6379
   redisOptions.host = redisOptions.host || 'localhost'
-  const redisClient = wrapper(Redis.createClient(redisOptions.port, redisOptions.host, redisOptions.options))
+  redisOptions.url = redisOptions.url || 'redis://' + redisOptions.host + ':' + redisOptions.port + '/'
+  const redisClient = wrapper(Redis.createClient(redisOptions.url, redisOptions.options))
   redisClient.on('error', (error)=> {
     redisAvailable = false
     onerror(error)
@@ -39,7 +40,8 @@ module.exports = function(options) {
     const ctx = this
     const url = ctx.request.url
     const path = ctx.request.path
-    const key = prefix + url
+    const resolvedPrefix = typeof prefix === 'function' ? prefix.call(ctx, ctx) : prefix;
+    const key = resolvedPrefix + url
     const tkey = key + ':type'
     let match = false
     let routeExpire = false
