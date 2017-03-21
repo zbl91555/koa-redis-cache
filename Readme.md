@@ -14,7 +14,7 @@ const cache = require('koa-redis-cache')
 const koa = require('koa')
 const app = koa()
 
-let options = {
+const options = {
   expire: 60,
   routes: ['/index']
 }
@@ -66,7 +66,7 @@ const cache = require('koa-redis-cache')
 const koa = require('koa')
 const app = koa()
 
-let options = {
+const options = {
   routes: [{
     path: '/index',
     expire: 60
