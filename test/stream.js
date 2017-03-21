@@ -4,21 +4,21 @@ const request = require('supertest')
 const { equal } = require('assert')
 const should = require('should')
 const cache = require('..')
-const koa = require('koa')
+const Koa = require('koa')
 const fs = require('fs')
 
 describe('## stream support', () => {
-  let app = koa()
+  let app = new Koa()
   app.use(cache({
     maxLength: 1000
   }))
-  app.use(function* () {
-    this.type = 'js'
+  app.use(async (ctx) => {
+    ctx.type = 'js'
 
-    if (this.path === '/stream/js/1') {
-      this.body = fs.createReadStream(__dirname + '/hook.js')
-    } else if (this.path === '/stream/js/2') {
-      this.body = fs.createReadStream(__filename)
+    if (ctx.path === '/stream/js/1') {
+      ctx.body = fs.createReadStream(__dirname + '/hook.js')
+    } else if (ctx.path === '/stream/js/2') {
+      ctx.body = fs.createReadStream(__filename)
     }
   })
 

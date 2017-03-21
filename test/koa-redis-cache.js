@@ -4,40 +4,40 @@ const request = require('supertest')
 const { equal } = require('assert')
 const should = require('should')
 const cache = require('..')
-const koa = require('koa')
+const Koa = require('koa')
 
 describe('## default options', () => {
-  let app = koa()
+  let app = new Koa()
   app.use(cache())
-  app.use(function* () {
-    if (this.path === '/app/json') {
-      this.body = {
+  app.use(async (ctx) => {
+    if (ctx.path === '/app/json') {
+      ctx.body = {
         name: 'hello'
       }
       return
     }
-    if (this.path === '/app/text') {
-      this.body = 'hello'
+    if (ctx.path === '/app/text') {
+      ctx.body = 'hello'
       return
     }
-    if (this.path === '/app/type') {
-      this.body = 'default type: html'
-      this.res.removeHeader('Content-Type')
+    if (ctx.path === '/app/type') {
+      ctx.body = 'default type: html'
+      ctx.res.removeHeader('Content-Type')
     }
-    if (this.path === '/app/html') {
-      this.body = '<h1>hello</h1>'
-      if (this.query.v) {
-        this.body += this.query.v
+    if (ctx.path === '/app/html') {
+      ctx.body = '<h1>hello</h1>'
+      if (ctx.query.v) {
+        ctx.body += ctx.query.v
       }
       return
     }
-    if (this.path === '/app/buffer') {
-      this.body = new Buffer('buffer')
+    if (ctx.path === '/app/buffer') {
+      ctx.body = new Buffer('buffer')
       return
     }
-    if (this.path === '/app/500') {
-      this.status = 500
-      this.body = 'no cache'
+    if (ctx.path === '/app/500') {
+      ctx.status = 500
+      ctx.body = 'no cache'
     }
   })
 

@@ -36,8 +36,7 @@ module.exports = function(options) {
     redisAvailable = true
   })
 
-  return function * cache(next) {
-    const ctx = this
+  return async function cache(ctx, next) {
     const url = ctx.request.url
     const path = ctx.request.path
     const resolvedPrefix = typeof prefix === 'function' ? prefix.call(ctx, ctx) : prefix;
@@ -68,12 +67,12 @@ module.exports = function(options) {
     }
 
     if (!redisAvailable || !match || (passParam && ctx.request.query[passParam])) {
-      return yield * next
+      return await next()
     }
 
     let ok = false
     try {
-      ok = yield getCache(ctx, key, tkey)
+      ok = await getCache(ctx, key, tkey)
     } catch (e) {
       ok = false
     }
@@ -81,11 +80,11 @@ module.exports = function(options) {
       return
     }
 
-    yield * next
+    await next()
 
     try {
       let trueExpire = routeExpire || expire
-      yield setCache(ctx, key, tkey, trueExpire)
+      await setCache(ctx, key, tkey, trueExpire)
     } catch (e) {}
     routeExpire = false
   }
@@ -93,14 +92,14 @@ module.exports = function(options) {
   /**
    * getCache
    */
-  function * getCache(ctx, key, tkey) {
-    let value = yield redisClient.get(key)
+  async function getCache(ctx, key, tkey) {
+    let value = await redisClient.get(key)
     let type
     let ok = false
 
     if (value) {
       ctx.response.status = 200
-      type = (yield redisClient.get(tkey)) || 'text/html'
+      type = (await redisClient.get(tkey)) || 'text/html'
       // can happen if user specified return_buffers: true in redis options
       if (Buffer.isBuffer(type)) type = type.toString()
       ctx.response.set('X-Koa-Redis-Cache', 'true')
@@ -115,7 +114,7 @@ module.exports = function(options) {
   /**
    * setCache
    */
-  function * setCache(ctx, key, tkey, expire) {
+  async function setCache(ctx, key, tkey, expire) {
     let body = ctx.response.body
 
     if ((ctx.request.method !== 'GET') || (ctx.response.status !== 200) || !body) {
@@ -125,36 +124,36 @@ module.exports = function(options) {
     if (typeof body === 'string') {
       // string
       if (Buffer.byteLength(body) > maxLength) return
-      yield redisClient.setex(key, expire, body)
+      await redisClient.setex(key, expire, body)
     } else if (Buffer.isBuffer(body)) {
       // buffer
       if (body.length > maxLength) return
-      yield redisClient.setex(key, expire, body)
+      await redisClient.setex(key, expire, body)
     } else if (typeof body === 'object' && ctx.response.type === 'application/json') {
       // json
       body = JSON.stringify(body)
       if (Buffer.byteLength(body) > maxLength) return
-      yield redisClient.setex(key, expire, body)
+      await redisClient.setex(key, expire, body)
     } else if (typeof body.pipe === 'function') {
       // stream
-      body = yield read(body)
+      body = await read(body)
       ctx.response.body = body
       if (Buffer.byteLength(body) > maxLength) return
-      yield redisClient.setex(key, expire, body)
+      await redisClient.setex(key, expire, body)
     } else {
       return
     }
 
-    yield * cacheType(ctx, tkey, expire)
+    await cacheType(ctx, tkey, expire)
   }
 
   /**
    * cacheType
    */
-  function * cacheType(ctx, tkey, expire) {
+  async function cacheType(ctx, tkey, expire) {
     let type = ctx.response.type
     if (type) {
-      yield redisClient.setex(tkey, expire, type)
+      await redisClient.setex(tkey, expire, type)
     }
   }
 }

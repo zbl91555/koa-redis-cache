@@ -7,12 +7,12 @@
 
 ### koa-redis-cache
 
-how to use
+How to use ?
 
 ```js
 const cache = require('koa-redis-cache')
-const koa = require('koa')
-const app = koa()
+const Koa = require('koa')
+const app = new Koa()
 
 const options = {
   expire: 60,
@@ -63,8 +63,8 @@ app.use(cache(options))
 
 ```js
 const cache = require('koa-redis-cache')
-const koa = require('koa')
-const app = koa()
+const Koa = require('koa')
+const app = new Koa()
 
 const options = {
   routes: [{

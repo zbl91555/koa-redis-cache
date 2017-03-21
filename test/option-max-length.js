@@ -4,27 +4,27 @@ const request = require('supertest')
 const { equal } = require('assert')
 const should = require('should')
 const cache = require('..')
-const koa = require('koa')
+const Koa = require('koa')
 
 describe('## options - maxLength', () => {
   const options = {
     maxLength: 4
   }
-  let app = koa()
+  let app = new Koa()
   app.use(cache(options))
-  app.use(function* () {
-    if (this.path === '/max/length/json') {
-      this.body = {
+  app.use(async (ctx) => {
+    if (ctx.path === '/max/length/json') {
+      ctx.body = {
         name: 'hello'
       }
       return
     }
-    if (this.path === '/max/length/string') {
-      this.body = 'hello'
+    if (ctx.path === '/max/length/string') {
+      ctx.body = 'hello'
       return
     }
-    if (this.path === '/max/length/buffer') {
-      this.body = new Buffer('hello')
+    if (ctx.path === '/max/length/buffer') {
+      ctx.body = new Buffer('hello')
       return
     }
   })

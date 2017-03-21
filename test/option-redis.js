@@ -3,7 +3,7 @@
 const request = require('supertest')
 const should = require('should')
 const cache = require('..')
-const koa = require('koa')
+const Koa = require('koa')
 
 describe('## options - redis', ()=> {
   const options = {
@@ -13,11 +13,11 @@ describe('## options - redis', ()=> {
     }
   }
 
-  let app = koa()
+  let app = new Koa()
 
   app.use(cache(options))
-  app.use(function* () {
-    this.body = {
+  app.use(async (ctx) => {
+    ctx.body = {
       name: 'hello'
     }
   })

@@ -3,17 +3,17 @@
 const request = require('supertest')
 const should = require('should')
 const cache = require('..')
-const koa = require('koa')
+const Koa = require('koa')
 
 describe('## options - prefix', () => {
   describe('# old prefix', () => {
     const options = {
       prefix: 'old-koa-redis-cache:'
     }
-    let app = koa()
+    let app = new Koa()
     app.use(cache(options))
-    app.use(function* () {
-      this.body = {
+    app.use(async (ctx) => {
+      ctx.body = {
         name: 'old prefix'
       }
     })
@@ -51,10 +51,10 @@ describe('## options - prefix', () => {
     var options = {
       prefix: 'new-koa-redis-cache:'
     }
-    var app = koa()
+    var app = new Koa()
     app.use(cache(options))
-    app.use(function* () {
-      this.body = {
+    app.use(async (ctx) => {
+      ctx.body = {
         name: 'new prefix'
       }
     })
@@ -89,17 +89,17 @@ describe('## options - prefix', () => {
   })
 
   describe('# dynamic prefix', () => {
-    var options = {
+    const options = {
       prefix: function(ctx) {
         // You won't actually want to directly use user-supplied parameters in cache keys for security reasons
         return 'dynamic-prefix-user-' + ctx.request.header['x-user'] + '-koa-redis-cache:'
       }
     }
-    var app = koa()
+    let app = new Koa()
     app.use(cache(options))
-    app.use(function* () {
-      this.body = {
-        name: 'dynamic prefix user ' + this.request.header['x-user']
+    app.use(async (ctx) => {
+      ctx.body = {
+        name: 'dynamic prefix user ' + ctx.request.header['x-user']
       }
     })
 

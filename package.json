@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "istanbul": "0",
-    "koa": "1",
+    "koa": "2",
     "mocha": "3",
     "should": "11",
     "supertest": "3"
