@@ -4,11 +4,12 @@
 const pathToRegExp = require('path-to-regexp')
 const wrapper = require('co-redis')
 const readall = require('readall')
+const crypto = require('crypto')
 const Redis = require('redis')
 
 module.exports = function(options = {}) {
   let redisAvailable = false
-  
+
   const {
     prefix = 'koa-redis-cache:',
     expire = 30 * 60, // 30 min
@@ -18,6 +19,7 @@ module.exports = function(options = {}) {
     maxLength = Infinity,
     onerror = function() {}
   } = options
+
   const {
     host:redisHost = 'localhost',
     port:redisPort = 6379,
@@ -43,7 +45,7 @@ module.exports = function(options = {}) {
   return async function cache(ctx, next) {
     const { url, path } = ctx.request
     const resolvedPrefix = typeof prefix === 'function' ? prefix.call(ctx, ctx) : prefix;
-    const key = resolvedPrefix + url
+    const key = resolvedPrefix + md5(url)
     const tkey = key + ':type'
     let match = false
     let routeExpire = false
@@ -180,4 +182,8 @@ function read(stream) {
       }
     })
   })
+}
+
+function md5(str) {
+  return crypto.createHash('md5').update(str).digest('hex')
 }
