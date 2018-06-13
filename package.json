@@ -4,9 +4,9 @@
   "description": "a middleware for koa to cache response with redis.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha -R spec -t 5000 test/*.js",
-    "test-cov": "istanbul cover node_modules/.bin/_mocha -- -R dot -t 5000 test/*.js",
-    "test-travis": "istanbul cover node_modules/.bin/_mocha --report lcovonly -- -R dot -t 5000 test/*.js"
+    "test": "mocha -R spec -t 5000 test/*.js --exit",
+    "test-cov": "istanbul cover node_modules/.bin/_mocha -- -R dot -t 5000 test/*.js --exit",
+    "test-travis": "istanbul cover node_modules/.bin/_mocha --report lcovonly -- -R dot -t 5000 test/*.js --exit"
   },
   "repository": "coderhaoxin/koa-redis-cache",
   "keywords": [
@@ -23,16 +23,16 @@
     "Readme.md"
   ],
   "dependencies": {
-    "co-redis": "2",
-    "path-to-regexp": "1",
-    "readall": "1",
-    "redis": "2"
+    "co-redis": "^2.1.1",
+    "path-to-regexp": "^2.2.1",
+    "readall": "^1.0.0",
+    "redis": "^2.8.0"
   },
   "devDependencies": {
-    "istanbul": "0",
-    "koa": "2",
-    "mocha": "3",
-    "should": "11",
-    "supertest": "3"
+    "istanbul": "^0.4.5",
+    "koa": "^2.5.1",
+    "mocha": "^5.2.0",
+    "should": "^13.2.1",
+    "supertest": "^3.1.0"
   }
 }
