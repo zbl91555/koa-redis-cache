@@ -11,6 +11,7 @@ module.exports = function(options = {}) {
   let redisAvailable = false
 
   const {
+    redisInstance = null,
     prefix = 'koa-redis-cache:',
     expire = 30 * 60, // 30 min
     routes = ['(.*)'],
@@ -30,7 +31,7 @@ module.exports = function(options = {}) {
   /**
    * redisClient
    */
-  const redisClient = wrapper(Redis.createClient(redisUrl, redisOptions))
+  const redisClient = wrapper(redisInstance || Redis.createClient(redisUrl, redisOptions))
   redisClient.on('error', (error)=> {
     redisAvailable = false
     onerror(error)
